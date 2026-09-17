@@ -142,7 +142,7 @@ and check again.
 >   - Perform the *Basic Reverse Shell* example.
 >   - Transfer a file with `netcat`.
 
-`John the Ripper`: is an open-source password cracking tool used by system administrators to find weak password. 
+`John the Ripper`: is an open-source password cracking tool used by system administrators to find out weak passwords. 
 
 Its usage is very simple, we need at most three commands:
 1. > passwd root
@@ -153,7 +153,7 @@ Before move on, we just take a look at these three commands:
 1. `passwd root`: changing password of the chosen user
 2. `unshadow /etc/passwd /etc/shadow > merged_file`: merging together in a single file called merged_file both contents coming from passwd and shadow files 
    1. `/etc/passwd`: passwd absolute path containing the list of all users
-   2. `/etc/shadow`: shadow absolute path containg the encrypted password hashes   
+   2. `/etc/shadow`: shadow absolute path containing the encrypted password hashes   
 3. `john --format=crypt merged_file`: trying to crack passwords contained inside the merged file
  
 > Note: after the first step check whether you've really changed password. In this case, it might be useful to check if the file `shadow` has changed by `cat /etc/shadow` command.
