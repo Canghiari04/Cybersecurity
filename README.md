@@ -1,2 +1,1 @@
-# Cybersecurity
-Collection of notes and exercises Cybersecurity 2026/2027
+Collection of notes and exercises for the teaching Cybersecurity (T510039101) of the Degree Computer Science
