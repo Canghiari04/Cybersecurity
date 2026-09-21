@@ -34,6 +34,8 @@ Nameservers
 Hostname:             ns1.sdu.dk
 Hostname:             ns2.sdu.dk
 Hostname:             ns3.sdu.dk
+
+kali㉿kali$
 ```
 
 We got some useful information, one of those is about `Nameservers`: SDU has three active servers, waiting for incoming connections. Probably these servers are used in order to provide some internal services.
@@ -49,6 +51,8 @@ Once we have obtained the IP address we can proceed to retrieve information usin
 kali㉿kali$ dig +short www.sdu.dk
 sdu.dk.
 52.233.201.66
+
+kali㉿kali$
 ```
 
 ```bash
@@ -126,6 +130,8 @@ OrgRoutingName:   Chaturmohta, Somesh
 OrgRoutingPhone:  +1-425-882-8080 
 OrgRoutingEmail:  someshch@microsoft.com
 OrgRoutingRef:    https://rdap.arin.net/registry/entity/CHATU3-ARIN
+
+kali㉿kali$
 ```
 
 > Note: there's a huge difference between this result and the previous one. Before we got only registration details. Right now we have some information about `Netrange`, `Orgname`, `Orgid` and so on.
@@ -155,6 +161,8 @@ We could divide services provided by SDU into:
 ```bash
 kali㉿kali$ dig +short nextcloud.sdu.dk
 130.225.156.61
+
+kali㉿kali$
 ```
 
 ```bash 
@@ -200,6 +208,8 @@ OrgTechName:   RIPE NCC Operations
 OrgTechPhone:  +31 20 535 4444 
 OrgTechEmail:  hostmaster@ripe.net
 OrgTechRef:    https://rdap.arin.net/registry/entity/RNO29-ARIN
+
+kali㉿kali$
 ```
 
 Currently, there are some differences between the whois-information collected from `www.sdu.dk` and those of `nextcloud.sdu.dk`, which are:
@@ -271,6 +281,8 @@ mnt-by:         DEIC-MNT
 created:        1970-01-01T00:00:00Z
 last-modified:  2022-01-28T14:00:18Z
 source:         RIPE
+
+kali㉿kali$
 ```
 
 Finally, thanks to the final command presented (`whois -h whois.ripe.net <IP address>`), we can confirm that `nextcloud.sdu.dk` is a self-hosted service, owned by `Syddansk Universitet, IT-service`.
@@ -284,7 +296,7 @@ Finally, thanks to the final command presented (`whois -h whois.ripe.net <IP add
 
 ## 3 Scanning the Metasploitable VMs
 We need to provide three different types of scans via the `nmap` tool, which are:
-1. `SYN scan`, and half-open scanning method that determines port states without completing the TCP handshake
+1. `SYN scan`, half-open scanning method that determines port states without completing the TCP handshake
 2. `Connect scan`, full TCP connection scanning method that defines port states completing the TCP three-way handshake
 3. `Full scan`, heavy and detailed scanning method that combines OS detection, version detection and script scanning completing every time a full TCP handshake. It provides not only port states but also what software and versions are actually running on them
 
@@ -292,40 +304,172 @@ First of all, we need to retrieve the IP address of the Metasploitable virtual m
 
 ```bash
 vagrant@ubuntu$ ip a sh
-...
+ip address show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:42:51:79 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe42:5179/64 scope link 
+       valid_lft forever preferred_lft forever
+3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:d7:c0:80:e0 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:d7ff:fec0:80e0/64 scope link 
+       valid_lft forever preferred_lft forever
+5: veth531daf1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+    link/ether 9a:25:76:c8:52:93 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::9825:76ff:fec8:5293/64 scope link 
+       valid_lft forever preferred_lft forever
+vagrant@ubuntu:~$
 ```
 
 ```bash
-kali㉿kali$ nmap -sS ...
-...
+kali㉿kali$ nmap -sS 10.0.2.15
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-21 17:41 -0400
+Nmap scan report for 10.0.2.15
+Host is up (0.00031s latency).
+Not shown: 991 filtered tcp ports (no-response)
+PORT     STATE  SERVICE
+21/tcp   open   ftp
+22/tcp   open   ssh
+80/tcp   open   http
+445/tcp  open   microsoft-ds
+631/tcp  open   ipp
+3000/tcp closed ppp
+3306/tcp open   mysql
+8080/tcp open   http-proxy
+8181/tcp closed intermapper
+MAC Address: 08:00:27:42:51:79 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 5.36 seconds
+
+kali㉿kali$
 ```
 
 ```bash
-kali㉿kali$ sudo nmap -sT ...
-...
+kali㉿kali$ sudo nmap -sT 10.0.2.15
+[sudo] password for kali: 
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-21 17:41 -0400
+Nmap scan report for 10.0.2.15
+Host is up (0.00033s latency).
+Not shown: 991 filtered tcp ports (no-response)
+PORT     STATE  SERVICE
+21/tcp   open   ftp
+22/tcp   open   ssh
+80/tcp   open   http
+445/tcp  open   microsoft-ds
+631/tcp  open   ipp
+3000/tcp closed ppp
+3306/tcp open   mysql
+8080/tcp open   http-proxy
+8181/tcp closed intermapper
+MAC Address: 08:00:27:42:51:79 (Oracle VirtualBox virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 5.20 seconds
+
+kali㉿kali$
 ```
 
 ```bash
-kali㉿kali$ sudo nmap -A ...
-...
+kali㉿kali$ sudo nmap -A 10.0.2.15
+[sudo] password for kali: 
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-21 17:42 -0400
+Nmap scan report for 10.0.2.15
+Host is up (0.00035s latency).
+Not shown: 991 filtered tcp ports (no-response)
+PORT     STATE  SERVICE     VERSION
+21/tcp   open   ftp         ProFTPD 1.3.5
+22/tcp   open   ssh         OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 2b:2e:1f:a4:54:26:87:76:12:26:59:58:0d:da:3b:04 (DSA)
+|   2048 c9:ac:70:ef:f8:de:8b:a3:a3:44:ab:3d:32:0a:5c:6a (RSA)
+|   256 c0:49:cc:18:7b:27:a4:07:0d:2a:0d:bb:42:4c:36:17 (ECDSA)
+|_  256 a0:76:f3:76:f8:f0:70:4d:09:ca:e1:10:fd:a9:cc:0a (ED25519)
+80/tcp   open   http        Apache httpd 2.4.7
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Index of /
+| http-ls: Volume /
+| SIZE  TIME              FILENAME
+| -     2020-10-29 19:37  chat/
+| -     2011-07-27 20:17  drupal/
+| 1.7K  2020-10-29 19:37  payroll_app.php
+| -     2013-04-08 12:06  phpmyadmin/
+|_
+445/tcp  open   netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
+631/tcp  open   ipp         CUPS 1.7
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-title: Home - CUPS 1.7.2
+| http-methods: 
+|_  Potentially risky methods: PUT
+|_http-server-header: CUPS/1.7 IPP/2.1
+3000/tcp closed ppp
+3306/tcp open   mysql       MySQL (unauthorized)
+8080/tcp open   http        Jetty 8.1.7.v20120910
+|_http-server-header: Jetty(8.1.7.v20120910)
+|_http-title: Error 404 - Not Found
+8181/tcp closed intermapper
+MAC Address: 08:00:27:42:51:79 (Oracle VirtualBox virtual NIC)
+Aggressive OS guesses: Linux 3.2 - 4.14 (98%), Linux 3.8 - 3.16 (98%), Linux 3.10 - 4.11 (94%), Linux 3.13 - 4.4 (94%), Linux 3.13 (94%), Linux 3.13 - 3.16 (94%), OpenWrt Chaos Calmer 15.05 (Linux 3.18) or Designated Driver (Linux 4.1 or 4.4) (94%), Linux 4.10 (94%), Android 5.0 - 6.0.1 (Linux 3.4) (94%), Android 8 - 9 (Linux 3.18 - 4.4) (94%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 1 hop
+Service Info: Hosts: 127.0.1.1, UBUNTU; OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+| smb2-security-mode: 
+|   3.1.1: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2026-09-21T21:42:22
+|_  start_date: N/A
+|_clock-skew: mean: 3s, deviation: 2s, median: 1s
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb-os-discovery: 
+|   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+|   Computer name: ubuntu
+|   NetBIOS computer name: UBUNTU\x00
+|   Domain name: \x00
+|   FQDN: ubuntu
+|_  System time: 2026-09-21T21:42:23+00:00
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.35 ms 10.0.2.15
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 56.71 seconds
+
+kali㉿kali$
 ```
 
 For each of them we are gonna to describe a list of advantages and disadvantages, starting from the SYN scan.
 - `SYN scan`:
     - Advantages:
-        1. ...
+        1. Fast, it doesn't perform a full TCP handshake
+        2. Root access not needed, operating system's stack is not involved
     - Disadvantages:
-        1. ...
+        1. No real connection is established, TCP handshake is never completed
 - `Connection scan`:
     - Advantages:
-        1. ...
+        1. Real connection is established, TCP handshake is always completed
     - Disadvantages:
-        1. ...
+        1. Slow, for each queried port it attempts to complete a full TCP three-way handshake
 - `Full scan`:
     - Advantages:
-        1. ...
+        1. Detailed information, it provides details about port state, service running on that port, service's version when available, operating system guess and traceroute
     - Disadvantages:
-        1. ...
+        1. Very slow, as before, for each queried port it attempts to complete a full TCP handshake
 
 ## 4 Vulnerabilities (Highest Severity Found)
 
