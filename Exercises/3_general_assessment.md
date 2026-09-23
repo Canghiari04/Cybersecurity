@@ -38,7 +38,7 @@ Hostname:             ns3.sdu.dk
 kali㉿kali$
 ```
 
-We got some useful information, one of those is about `Nameservers`: SDU has three active servers, waiting for incoming connections. Probably these servers are used in order to provide some internal services.
+We got some useful information, one of those is about `Nameservers`: SDU has three active servers, waiting for incoming connections. Probably they are DNS servers responsible for resolving hostnames in the `sdu.dk` zone to IP addresses for the public internet.
 
 ### 2. Try whois on the IP address of www.sdu.dk
 As we already know, `whois` is a tool to gather information from registration databases, asking about domain names and IP addresses. Therefore, we can't use it with a **host name**, such `www.sdu.dk`.
@@ -214,8 +214,8 @@ kali㉿kali$
 
 Currently, there are some differences between the whois-information collected from `www.sdu.dk` and those of `nextcloud.sdu.dk`, which are:
 1. `NetRange`: they belong to different IP address blocks 
-   1. `nextcloud.sdu.dk` $\rightarrow$ `130.255.0.0` - `130.244.255.255`
-   2. `www.sdu.dk` $\rightarrow$ `52.224.0.0` - `52.225.255.255`
+   1. `nextcloud.sdu.dk` $\rightarrow$ `130.225.0.0` - `130.244.255.255`
+   2. `www.sdu.dk` $\rightarrow$ `52.224.0.0` - `52.255.255.255`
 2. `NetName`: `nextcloud.sdu.dk` IP address block does not belong to Microsoft Corporation, which already leads us to assume that it's a self-hosted service
    1. `nextcloud.sdu.dk` $\rightarrow$ `RIPE-ERX-130-225-0-0`
    2. `www.sdu.dk` $\rightarrow$ `MSFT`
@@ -331,7 +331,7 @@ vagrant@ubuntu:~$
 ```
 
 ```bash
-kali㉿kali$ nmap -sS 10.0.2.15
+kali㉿kali$ sudo nmap -sS 10.0.2.15
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-21 17:41 -0400
 Nmap scan report for 10.0.2.15
 Host is up (0.00031s latency).
@@ -354,7 +354,7 @@ kali㉿kali$
 ```
 
 ```bash
-kali㉿kali$ sudo nmap -sT 10.0.2.15
+kali㉿kali$ nmap -sT 10.0.2.15
 [sudo] password for kali: 
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-21 17:41 -0400
 Nmap scan report for 10.0.2.15
@@ -457,12 +457,12 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - `SYN scan`:
     - Advantages:
         1. Fast, it doesn't perform a full TCP handshake
-        2. Root access not needed, operating system's stack is not involved
     - Disadvantages:
         1. No real connection is established, TCP handshake is never completed
-- `Connection scan`:
+- `Connect scan`:
     - Advantages:
         1. Real connection is established, TCP handshake is always completed
+        2. Root access not needed, operating system's stack is not involved
     - Disadvantages:
         1. Slow, for each queried port it attempts to complete a full TCP three-way handshake
 - `Full scan`:
@@ -512,3 +512,19 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - Detected Version: ProFTPD 1.3.5
 - CVE: [CVE-1999-0502](https://www.cve.org/CVERecord?id=CVE-1999-0502)
 - Implications: An attacker using weak or known credentials can upload, download, or delete files on the server, potentially replacing web content or planting malicious files for further attacks. High severity is justified because it gives unauthenticated-ish access to stored data and a foothold for further compromise, though impact is limited compared to full RCE.
+
+## 5. Comparing tools
+Overlaps:
+1. ...
+
+Differences:
+1. ...
+
+Advantages:
+1. ...
+
+Disadvantages:
+1. ...
+
+Usage: 
+1. ...
