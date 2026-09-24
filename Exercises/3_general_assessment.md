@@ -1,7 +1,7 @@
 # Exercise 03: General Assessment
 
-## 1 Finding Information with whois
-### 1. Trying to gather information on SDU with whois
+## 3.a Finding Information with whois
+### 3.a.1 Trying to gather information on SDU with whois
 `whois` is a widely used IP protocol to query databases storing information about domain names and IP addresses. This command queries the registration database, not **DNS** (Domain Name System).
 
 We would like to gather information about **SDU** (University of Southern Denmark). Therefore, we need to find out which is the domain name of this entity.
@@ -40,7 +40,7 @@ kali㉿kali$
 
 We got some useful information, one of those is about `Nameservers`: SDU has three active servers, waiting for incoming connections. Probably they are DNS servers responsible for resolving hostnames in the `sdu.dk` zone to IP addresses for the public internet.
 
-### 2. Try whois on the IP address of www.sdu.dk
+### 3.a.2 Try whois on the IP address of www.sdu.dk
 As we already know, `whois` is a tool to gather information from registration databases, asking about domain names and IP addresses. Therefore, we can't use it with a **host name**, such `www.sdu.dk`.
 
 First of all, we have to resolve the **host name** into an **IP address** and this is possible through the command `dig +[options] [domain]`. It will provide us the IP address associated to the host name `www.sdu.dk`.
@@ -136,7 +136,7 @@ kali㉿kali$
 
 > Note: there's a huge difference between this result and the previous one. Before we got only registration details. Right now we have some information about `Netrange`, `Orgname`, `Orgid` and so on.
 
-### 3. What do you learn about SDU's network? In the protocol, note the IP range.
+### 3.a.3 What do you learn about SDU's network? In the protocol, note the IP range.
 A bunch of details are coming out from the previous section, such as:
 1. `Netrange`: 52.224.0.0 - 52.255.255.255.
 2. `CIDR`: 52.224.0.0/11.
@@ -144,7 +144,7 @@ A bunch of details are coming out from the previous section, such as:
 
 > Note: the fact that Microsoft owns the address space, it doesn't mean that it's actually running `www.sdu.dk`.
 
-### 4. Are there other Networking-Services @SDU which you could try?
+### 3.a.4 Are there other Networking-Services @SDU which you could try?
 We could divide services provided by SDU into:
 - **Internal services**:
   - `nextcloud.sdu.dk`.
@@ -155,7 +155,7 @@ We could divide services provided by SDU into:
 - **External services**:
   - `sdu.itslearning.com`.
 
-### 5. What is the whois information for nextcloud.sdu.dk?
+### 3.a.5 What is the whois information for nextcloud.sdu.dk?
 `nextcloud.sdu.dk` is a host name: we have to resolve it in an IP address and then run the `whois <IP address>` command.
 
 ```bash
@@ -287,14 +287,14 @@ kali㉿kali$
 
 Finally, thanks to the final command presented (`whois -h whois.ripe.net <IP address>`), we can confirm that `nextcloud.sdu.dk` is a self-hosted service, owned by `Syddansk Universitet, IT-service`.
 
-## 2 Question: nmap
-### 1. Send packets with specified ip options
+## 3.b Question: nmap
+### 3.b.1 Send packets with specified ip options
 > nmap --ip-options \<options> {target specification}
 
-### 2. Spoof your MAC address
+### 3.b.2 Spoof your MAC address
 > nmap --spoof-mac \<MAC> {target specification}
 
-## 3 Scanning the Metasploitable VMs
+## 3.c Scanning the Metasploitable VMs
 We need to provide three different types of scans via the `nmap` tool, which are:
 1. `SYN scan`, half-open scanning method that determines port states without completing the TCP handshake.
 2. `Connect scan`, full TCP connection scanning method that defines port states completing the TCP three-way handshake.
@@ -471,8 +471,8 @@ For each of them we are gonna to describe a list of advantages and disadvantages
     - Disadvantages:
         1. Very slow, as before, for each queried port it attempts to complete a full TCP handshake.
 
-## 4 Vulnerabilities (Highest Severity Found)
-### V1
+## 3.d Vulnerabilities (Highest Severity Found)
+### 3.d.1 V1
 - CVSS Severity: 10 (Critical)
 - Vulnerability: Drupal Coder RCE Vulnerability (SA-CONTRIB-2016-039) - Active Check
 - Summary: Drupal is prone to a remote code execution (RCE) vulnerability.
@@ -482,7 +482,7 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - CVE: [3rd party module flaw](https://www.drupal.org/node/2765575)
 - Implications: An attacker can run arbitrary code on the web server with the privileges of the web user, allowing full compromise of the host, data theft, and use of the machine as a pivot into the internal network. Critical severity is justified because no authentication is required, exploitation is straightforward, and the potential loss of confidentiality, integrity and availability is total.
 
-### V2
+### 3.d.2 V2
 - CVSS Severity: 9.8 (Critical)
 - Vulnerability: SSH Brute Force Logins With Default Credentials Reporting
 - Summary: It was possible to login into the remote SSH server using default credentials.
@@ -492,7 +492,7 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - CVE: There's quite a few references; this is [one](https://www.cve.org/CVERecord?id=CVE-1999-0501)
 - Implications: An attacker who guesses the default credentials gains a valid shell on the server, leading to full control of the system (data theft, tampering, malware deployment, lateral movement). Critical severity is warranted because default credentials are publicly known, require no exploit code, and result in complete host compromise.
 
-### V3
+### 3.d.3 V3
 - CVSS Severity: 7.5 (High)
 - Vulnerability: SSL/TLS: Report Vulnerable Cipher Suites for HTTPS
 - Summary: This routine reports all SSL/TLS cipher suites accepted by a service where attack vectors exists only on HTTPS services; vulnerable to SWEET32 attacks.
@@ -502,7 +502,7 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - CVE: [CVE-2016-2183](https://www.cve.org/CVERecord?id=CVE-2016-2183)
 - Implications: A network attacker able to capture traffic can recover plaintext from long-lived encrypted sessions such as large downloads, breaking confidentiality of the transmitted data. High severity is appropriate because it undermines TLS/SSL protection on an exposed service, though it requires a privileged network position and large amounts of traffic to succeed.
 
-### V4
+### 3.d.4 V4
 - CVSS Severity: 7.5 (High)
 - Vulnerability: FTP Brute Force Logins With Default Credentials Reporting
 - Summary: It was possible to login into the remote FTP server using weak/known credentials.
@@ -512,5 +512,5 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - CVE: [CVE-2015-3306]([https://www.cve.org/CVERecord?id=CVE-1999-0502](https://www.cve.org/CVERecord?id=CVE-2015-3306))
 - Implications: An attacker using weak or known credentials can upload, download, or delete files on the server, potentially replacing web content or planting malicious files for further attacks. High severity is justified because it gives unauthenticated-ish access to stored data and a foothold for further compromise, though impact is limited compared to full RCE.
 
-## 5. Comparing tools
+## 3.e Comparing tools
 Both `nmap` and `GVM` are fundamental network security tools: `nmap` is a network port scanner, while `GVM` is a vulnerability scanner and management platform (web page running on the Kali's virtual machine localhost). We discuss the main differences and overlaps between the two tools, take in account also a comprehensive list of pros and cons for each of them.
