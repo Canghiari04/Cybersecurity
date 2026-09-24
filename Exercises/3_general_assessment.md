@@ -509,7 +509,7 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - Service: FTP
 - Port: 21/tcp
 - Detected Version: ProFTPD 1.3.5
-- CVE: [CVE-1999-0502](https://www.cve.org/CVERecord?id=CVE-1999-0502)
+- CVE: [CVE-2015-3306]([https://www.cve.org/CVERecord?id=CVE-1999-0502](https://www.cve.org/CVERecord?id=CVE-2015-3306))
 - Implications: An attacker using weak or known credentials can upload, download, or delete files on the server, potentially replacing web content or planting malicious files for further attacks. High severity is justified because it gives unauthenticated-ish access to stored data and a foothold for further compromise, though impact is limited compared to full RCE.
 
 ## 5. Comparing tools
@@ -521,11 +521,13 @@ Overlaps:
 3. `Software`.
 
 Differences:
-1. `Higher degree of clarity`, GVM gives us more clarity about the vulnerabilities identified.
-2. `Purpose`, nmap is used for host discovery while GVM performs mainly a vulnerability scanning.
-3. `Detailed information`, GVM network tool offers a complete and exhaustive vulnerabilities assessment focuses on services running on discovered ports, rather than just identyfing open ports.
-   
-Pros:
-1. `Light`, nmap is much more lighter than GVM network tool, operating with minimal CPU and RAM resource footprint.
-2. `Speed & Efficiency`, nmap scans thousands of ports across target subnet in seconds or minutes, due to the type of scanning it's performing.
-3. `Stealthier`, compared to GVM, nmap has a minimal network disruption, which reduces the likelihood of being detected by the target host's security systems.
+1. ...
+
+Advantages:
+1. ...
+
+Disadvantages:
+1. ...
+
+Usage: 
+1. ...
