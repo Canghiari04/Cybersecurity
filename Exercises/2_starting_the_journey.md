@@ -94,16 +94,15 @@ vagrant@ubuntu:~$
 ```
 
 Looking at the shell the information are provided following a precise order:
-
-1. `2:`: interface number.
-2. `link/ether`: MAC address.
-3. `eth0:`: network interface.
-4. `inet`: IPv4 network.
-5. `10.0.2.15`: ip address.
-6. `/24`: subnet mask (255.255.255.0).
-7. `inet6`: IPv6 network.
-8. `fe80::a00:27ff:fe42:5179`: ip address.
-9. `/64`: prefix length.
+1. `2:`: interface number
+2. `link/ether`: MAC address
+3. `eth0:`: network interface
+4. `inet`: IPv4 network
+5. `10.0.2.15`: ip address
+6. `/24`: subnet mask (255.255.255.0)
+7. `inet6`: IPv6 network
+8. `fe80::a00:27ff:fe42:5179`: ip address
+9. `/64`: prefix length
 
 >Note: IPv6 doesn't use anymore a `subnet mask`, instead what is actually used is a `prefix`. A `prefix` says how many bits are used to identify the network from the host.
 
@@ -120,10 +119,10 @@ vagrant@ubuntu:~$
 ```
 
 Again, the information are provided in the following order:
-1. `10.0.2.1`: ip address of the default gateway
-2. `eth0`: network interface of the virtual machine
-3. `10.0.2.0/24`: network where is the default gateway 
-4. `10.0.2.15`: local ip address of the virtual machine
+1. `10.0.2.1`: ip address of the default gateway.
+2. `eth0`: network interface of the virtual machine.
+3. `10.0.2.0/24`: network where is the default gateway.
+4. `10.0.2.15`: local ip address of the virtual machine.
 
 > Note: from this type of information we can get the local ip address of the device.
 
