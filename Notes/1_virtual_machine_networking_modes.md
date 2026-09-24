@@ -1,3 +1,5 @@
+## 1. Virtual Machine Networking Modes
+
 - NAT (Network Address Translation): The hypervisor creates an isolated private subnet where outbound traffic is translated via the host's IP address. The guest can reach external networks, but external hosts (and other VMs by default) cannot initiate connections to the guest without explicit port-forwarding rules.
 
 - NAT Network: An internal virtual router shared across multiple VMs. VMs attached to the same NAT network can communicate directly with each other and access the external internet, while remaining shielded from unsolicited inbound connections from the physical LAN.
