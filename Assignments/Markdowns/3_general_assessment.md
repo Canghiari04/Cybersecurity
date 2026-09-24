@@ -10,7 +10,7 @@ At the operational level of the commands (like whois and dig), no difference was
 
 However, the real difference lies in infrastructure ownership and hosting. `www.sdu.dk` is hosted externally on Microsoft Azure, whereas `nextcloud.sdu.dk` is provided by SDU's own network.
 
-### Question 3:  Question 3: Using nmap’s --ip-options argument allows to manipulate options in the ip header of packets sent. (Yes/No) 
+### Question 3: Using nmap’s --ip-options argument allows to manipulate options in the ip header of packets sent. (Yes/No) 
 Yes.
 
 ### Question 4: nmap’s --spoof-mac argument allows to imitate: <br/> - a\) another host's ip address. <br/> - b\) another host's hardware address. 
