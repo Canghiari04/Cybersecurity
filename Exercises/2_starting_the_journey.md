@@ -95,15 +95,15 @@ vagrant@ubuntu:~$
 
 Looking at the shell the information are provided following a precise order:
 
-1. `2:`: interface number
-2. `link/ether`: MAC address
-3. `eth0:`: network interface
-4. `inet`: IPv4 network
-5. `10.0.2.15`: ip address
-6. `/24`: subnet mask (255.255.255.0)
-7. `inet6`: IPv6 network
-8. `fe80::a00:27ff:fe42:5179`: ip address
-9. `/64`: prefix length
+1. `2:`: interface number.
+2. `link/ether`: MAC address.
+3. `eth0:`: network interface.
+4. `inet`: IPv4 network.
+5. `10.0.2.15`: ip address.
+6. `/24`: subnet mask (255.255.255.0).
+7. `inet6`: IPv6 network.
+8. `fe80::a00:27ff:fe42:5179`: ip address.
+9. `/64`: prefix length.
 
 >Note: IPv6 doesn't use anymore a `subnet mask`, instead what is actually used is a `prefix`. A `prefix` says how many bits are used to identify the network from the host.
 
@@ -149,11 +149,11 @@ Its usage is very simple, we need at most three commands:
 3. > john --format=crypt merged_file
 
 Before move on, we just take a look at these three commands:
-1. `passwd root`: changing password of the chosen user
-2. `unshadow /etc/passwd /etc/shadow > merged_file`: merging together in a single file called merged_file both contents coming from passwd and shadow files 
-   1. `/etc/passwd`: passwd absolute path containing the list of all users
-   2. `/etc/shadow`: shadow absolute path containing the encrypted password hashes   
-3. `john --format=crypt merged_file`: trying to crack passwords contained inside the merged file
+1. `passwd root`: changing password of the chosen user.
+2. `unshadow /etc/passwd /etc/shadow > merged_file`: merging together in a single file called merged_file both contents coming from passwd and shadow files.
+   1. `/etc/passwd`: passwd absolute path containing the list of all users.
+   2. `/etc/shadow`: shadow absolute path containing the encrypted password hashes.
+3. `john --format=crypt merged_file`: trying to crack passwords contained inside the merged file.
  
 > Note: after the first step check whether you've really changed password. In this case, it might be useful to check if the file `shadow` has changed by `cat /etc/shadow` command.
 
@@ -207,8 +207,8 @@ Right now, we don't have anymore only software structures for the communication 
 In order to use this command, we need to specify which network we would like to explore. Before this, it might be useful to discover the IP address of the current machine and then use it by the `nmap` command for scanning all the other devices already connected in the same local network.
 
 Therefore, we execute the following two commands:
-1. `ip address show`: displaying the local IP address of the virtual machine
-2. `nmap -sP ip/subnet`: displaying all the other devices already connected to the same local network
+1. `ip address show`: displaying the local IP address of the virtual machine.
+2. `nmap -sP ip/subnet`: displaying all the other devices already connected to the same local network.
 
 ```bash
 kali㉿kali$ ip address show
@@ -255,9 +255,9 @@ kali㉿kali$
 `nmap` and `netcat` are very similar, but there's a huge difference between them: `nmap` is mainly used for performing security-oriented tasks, while `netcat` provides simple and easy data trasmission and connection establishment functions.
 
 First of all, in order to establish a communication or data trasmission we need to set up a port. That port will listen and later from another terminal we should be able to transfer a file via `netcat`.
-1. `netcat -l -p 8080`: starting for listening incoming connections on port 8080
-2. `nmap 127.0.0.1`: scanning the local-host to identify open ports and running services
-3. `netcat 127.0.0.1 8080`: connecting to a service via port 8080 hosted by the same machine
+1. `netcat -l -p 8080`: starting for listening incoming connections on port 8080.
+2. `nmap 127.0.0.1`: scanning the local-host to identify open ports and running services.
+3. `netcat 127.0.0.1 8080`: connecting to a service via port 8080 hosted by the same machine.
 
 Once the connection is established, typing a message in the second shell and pressing `Enter` will send the same message to the other end.
 
@@ -280,8 +280,8 @@ The quick fox jump over the dog
 ```
 
 Via `netcat` we can also connect to a remote shell. The commands in this case are a little bit different, but they follow the same structure as before.
-1. `netcat -e /bin/bash 8080`: starting for listening incoming connections on port 8080, allowing anyone with access to execute commands in the system
-2. `netcat 127.0.0.1 8080`: establishing the TCP connection with the service available on port 8080
+1. `netcat -e /bin/bash 8080`: starting for listening incoming connections on port 8080, allowing anyone with access to execute commands in the system.
+2. `netcat 127.0.0.1 8080`: establishing the TCP connection with the service available on port 8080.
 
 From now on we have free access to the endpoint system: we can execute any type of command we want.
 

@@ -138,22 +138,22 @@ kali㉿kali$
 
 ### 3. What do you learn about SDU's network? In the protocol, note the IP range.
 A bunch of details are coming out from the previous section, such as:
-1. `Netrange`: 52.224.0.0 - 52.255.255.255
-2. `CIDR`: 52.224.0.0/11
-3. `Organization`: Microsoft Corporate (MSFT), so Microsoft owns the address space defined before
+1. `Netrange`: 52.224.0.0 - 52.255.255.255.
+2. `CIDR`: 52.224.0.0/11.
+3. `Organization`: Microsoft Corporate (MSFT), so Microsoft owns the address space defined before.
 
 > Note: the fact that Microsoft owns the address space, it doesn't mean that it's actually running `www.sdu.dk`.
 
 ### 4. Are there other Networking-Services @SDU which you could try?
 We could divide services provided by SDU into:
 - **Internal services**:
-  - `nextcloud.sdu.dk`
-  - `selvbprod.sdu.dk`
-  - `sprint.sdu.dk`
+  - `nextcloud.sdu.dk`.
+  - `selvbprod.sdu.dk`.
+  - `sprint.sdu.dk`.
   
   All of these services are self-hosted: their IP addresses fall in the same `NetRange` and they show the same `org-name` "**Syddansk Universitet, IT-service**".
 - **External services**:
-  - `sdu.itslearning.com`
+  - `sdu.itslearning.com`.
 
 ### 5. What is the whois information for nextcloud.sdu.dk?
 `nextcloud.sdu.dk` is a host name: we have to resolve it in an IP address and then run the `whois <IP address>` command.
@@ -213,12 +213,12 @@ kali㉿kali$
 ```
 
 Currently, there are some differences between the whois-information collected from `www.sdu.dk` and those of `nextcloud.sdu.dk`, which are:
-1. `NetRange`: they belong to different IP address blocks 
-   1. `nextcloud.sdu.dk` $\rightarrow$ `130.225.0.0` - `130.244.255.255`
-   2. `www.sdu.dk` $\rightarrow$ `52.224.0.0` - `52.255.255.255`
-2. `NetName`: `nextcloud.sdu.dk` IP address block does not belong to Microsoft Corporation, which already leads us to assume that it's a self-hosted service
-   1. `nextcloud.sdu.dk` $\rightarrow$ `RIPE-ERX-130-225-0-0`
-   2. `www.sdu.dk` $\rightarrow$ `MSFT`
+1. `NetRange`: they belong to different IP address blocks.
+   1. `nextcloud.sdu.dk` $\rightarrow$ `130.225.0.0` - `130.244.255.255`.
+   2. `www.sdu.dk` $\rightarrow$ `52.224.0.0` - `52.255.255.255`.
+2. `NetName`: `nextcloud.sdu.dk` IP address block does not belong to Microsoft Corporation, which already leads us to assume that it's a self-hosted service.
+   1. `nextcloud.sdu.dk` $\rightarrow$ `RIPE-ERX-130-225-0-0`.
+   2. `www.sdu.dk` $\rightarrow$ `MSFT`.
    
 To gather more details than before, we could run also another type of `whois` command. By `whois -h whois.ripe.net <IP address>` we send a query to the **RIPE NCC's whois server** and it returns the RIPE record of that IP. In this way, we are just choosing which registration database to query, in order to get more specific information.
 
@@ -291,14 +291,14 @@ Finally, thanks to the final command presented (`whois -h whois.ripe.net <IP add
 ### 1. Send packets with specified ip options
 > nmap --ip-options \<options> {target specification}
 
-### 3. Spoof your MAC address
+### 2. Spoof your MAC address
 > nmap --spoof-mac \<MAC> {target specification}
 
 ## 3 Scanning the Metasploitable VMs
 We need to provide three different types of scans via the `nmap` tool, which are:
-1. `SYN scan`, half-open scanning method that determines port states without completing the TCP handshake
-2. `Connect scan`, full TCP connection scanning method that defines port states completing the TCP three-way handshake
-3. `Full scan`, heavy and detailed scanning method that combines OS detection, version detection and script scanning completing every time a full TCP handshake. It provides not only port states but also what software and versions are actually running on them
+1. `SYN scan`, half-open scanning method that determines port states without completing the TCP handshake.
+2. `Connect scan`, full TCP connection scanning method that defines port states completing the TCP three-way handshake.
+3. `Full scan`, heavy and detailed scanning method that combines OS detection, version detection and script scanning completing every time a full TCP handshake. It provides not only port states but also what software and versions are actually running on them.
 
 First of all, we need to retrieve the IP address of the Metasploitable virtual machine and then we can run the scans listed above.
 
@@ -456,23 +456,22 @@ kali㉿kali$
 For each of them we are gonna to describe a list of advantages and disadvantages, starting from the SYN scan.
 - `SYN scan`:
     - Advantages:
-        1. Fast, it doesn't perform a full TCP handshake
+        1. Fast, it doesn't perform a full TCP handshake.
     - Disadvantages:
-        1. No real connection is established, TCP handshake is never completed
+        1. No real connection is established, TCP handshake is never completed.
 - `Connect scan`:
     - Advantages:
-        1. Real connection is established, TCP handshake is always completed
-        2. Root access not needed, operating system's stack is not involved
+        1. Real connection is established, TCP handshake is always completed.
+        2. Root access not needed, operating system's stack is not involved.
     - Disadvantages:
-        1. Slow, for each queried port it attempts to complete a full TCP three-way handshake
+        1. Slow, for each queried port it attempts to complete a full TCP three-way handshake.
 - `Full scan`:
     - Advantages:
-        1. Detailed information, it provides details about port state, service running on that port, service's version when available, operating system guess and traceroute
+        1. Detailed information, it provides details about port state, service running on that port, service's version when available, operating system guess and traceroute.
     - Disadvantages:
-        1. Very slow, as before, for each queried port it attempts to complete a full TCP handshake
+        1. Very slow, as before, for each queried port it attempts to complete a full TCP handshake.
 
 ## 4 Vulnerabilities (Highest Severity Found)
-
 ### V1
 - CVSS Severity: 10 (Critical)
 - Vulnerability: Drupal Coder RCE Vulnerability (SA-CONTRIB-2016-039) - Active Check
@@ -514,17 +513,19 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 - Implications: An attacker using weak or known credentials can upload, download, or delete files on the server, potentially replacing web content or planting malicious files for further attacks. High severity is justified because it gives unauthenticated-ish access to stored data and a foothold for further compromise, though impact is limited compared to full RCE.
 
 ## 5. Comparing tools
+Both `nmap` and `GVM` are fundamental network security tools: `nmap` is a network port scanner, while `GVM` is a vulnerability scanner and management platform (web page running on the Kali's virtual machine localhost). We discuss the main differences and overlaps between the two tools, take in account also a comprehensive list of pros and cons for each of them.
+
 Overlaps:
-1. ...
+1. `Port`.
+2. `Running service`.
+3. `Software`.
 
 Differences:
-1. ...
-
-Advantages:
-1. ...
-
-Disadvantages:
-1. ...
-
-Usage: 
-1. ...
+1. `Higher degree of clarity`, GVM gives us more clarity about the vulnerabilities identified.
+2. `Purpose`, nmap is used for host discovery while GVM performs mainly a vulnerability scanning.
+3. `Detailed information`, GVM network tool offers a complete and exhaustive vulnerabilities assessment focuses on services running on discovered ports, rather than just identyfing open ports.
+   
+Pros:
+1. `Light`, nmap is much more lighter than GVM network tool, operating with minimal CPU and RAM resource footprint.
+2. `Speed & Efficiency`, nmap scans thousands of ports across target subnet in seconds or minutes, due to the type of scanning it's performing.
+3. `Stealthier`, compared to GVM, nmap has a minimal network disruption, which reduces the likelihood of being detected by the target host's security systems.
