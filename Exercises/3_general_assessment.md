@@ -514,20 +514,3 @@ For each of them we are gonna to describe a list of advantages and disadvantages
 
 ## 5. Comparing tools
 Both `nmap` and `GVM` are fundamental network security tools: `nmap` is a network port scanner, while `GVM` is a vulnerability scanner and management platform (web page running on the Kali's virtual machine localhost). We discuss the main differences and overlaps between the two tools, take in account also a comprehensive list of pros and cons for each of them.
-
-Overlaps:
-1. `Port`.
-2. `Running service`.
-3. `Software`.
-
-Differences:
-1. ...
-
-Advantages:
-1. ...
-
-Disadvantages:
-1. ...
-
-Usage: 
-1. ...
