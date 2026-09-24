@@ -1,7 +1,6 @@
 # Exercise 02: Starting the Journey
 
 ## 2.a 
-
 ### 2.a.1 How did they separate access & infrastructure according to data relevance & impact?
 To accomplish this, Microsoft made a distinction between two environments. On one hand, they isolated the very high impact (and data relevance) production environment, closing off collaboration tools such as email, web browsers and conference tools from external network traffic; they also took security measures like providing dedicated accounts for admin work, Just In Time + Just Enough Access models and, importantly, the policy to never allow secret keys (or whatever cryptographic material) to leave the premise.
 
@@ -22,7 +21,6 @@ $\rightarrow$ [MS On The Issues](https://blogs.microsoft.com/on-the-issues/223/0
 $\rightarrow$ [Results of Major Investigations](https://www.microsoft.com/en-us/msrc/blog/223/09/results-of-major-technical-investigations-for-storm-0558-key-acquisition)
 
 ## 2.b 
-
 ### 2.b.1 **Networking options** 
 > Write down the explanation for:
 > - Network Address Translation

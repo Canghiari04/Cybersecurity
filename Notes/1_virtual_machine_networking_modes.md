@@ -1,4 +1,4 @@
-## 1. Virtual Machine Networking Modes
+# 1. Virtual Machine Networking Modes
 
 - NAT (Network Address Translation): The hypervisor creates an isolated private subnet where outbound traffic is translated via the host's IP address. The guest can reach external networks, but external hosts (and other VMs by default) cannot initiate connections to the guest without explicit port-forwarding rules.
 
@@ -8,4 +8,4 @@
 
 - Host-Only: Creates a completely isolated, internal virtual software switch accessible only by the host machine and other VMs assigned to that network. No traffic routes to the internet.
 
--> Best Option for Pentesting Labs: Host-Only (or an isolated NAT Network). When running intentionally vulnerable machines like Metasploitable 3, Bridged mode exposes critical vulnerabilities directly to the physical local network (e.g., university Wi-Fi or home routers). Host-Only isolates dangerous attack surfaces while permitting full Kali-to-target communication.
+$\rightarrow$ Best Option for Pentesting Labs: Host-Only (or an isolated NAT Network). When running intentionally vulnerable machines like Metasploitable 3, Bridged mode exposes critical vulnerabilities directly to the physical local network (e.g., university Wi-Fi or home routers). Host-Only isolates dangerous attack surfaces while permitting full Kali-to-target communication.
