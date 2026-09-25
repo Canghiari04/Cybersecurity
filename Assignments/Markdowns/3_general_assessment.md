@@ -21,7 +21,7 @@ Answer: b) another host's hardware address.
 On one hand, we have Nmap, a network scanning tool mainly used for initial discovery and inspecting a target host's subnet. We can obtain a very good overview of a host's structure, like port states, services running on them, OS detection, version detection and so on (the amount of information achieved depends on the type of scan executed). 
 Nmap's biggest advantage is its speed and lightweight footprint; it has a minimal network disruption, reducing drastically the likelihood of being detected by security systems. You would use Nmap during the early discovery phases of an attack or assessment to map out the target host's subnet.
 
-On the other hand, we have GVM, which provides a deep vulnerability evaluation. Its biggest advantage is tha ability to correlate together exposed services with a massive database of network vulnerability tests (CVE/NVT), resulting in detailed reports that provide actionable remediation steps.
+On the other hand, we have GVM, which provides a deep vulnerability evaluation. Its biggest advantage is the ability to correlate together exposed services with a massive database of network vulnerability tests (CVE/NVT), resulting in detailed reports that provide actionable remediation steps.
 You would use GVM to determine attack surfaces and identify vulnerabilities of the target system. While it requires significantly more time and system resources than Nmap, the tradeoff is a comprehensive and exhaustive vulnerability assessment, where depth takes priority over stealth.
 
 ### Question 6: List 4 services from the Metasploitable Linux VM, detailing service, port number and version number. 
