@@ -3,36 +3,33 @@
 ## 4.a Defence
 ### 4.a.1 Which technical tools can be used to defend against social engineering attacks and against which?
 To defend against social engineering attacks, several technical tools can be used, including:
-1. Phishing, at attempt to induce the victim to provide personal information. Some tools can be useful to avoid **Phishing Attacks**, such as **Email Authentication Protocols**, **Mail Filters** or **External Email Banners**. 
-2. Scareware, using fear and fake security alerts to trick the victim into purchasing useless software, downloading malware, or over-sharing personal information. Possible security measures could be **Pop-Up blocker**, **Advertising Blocker**, **URL Filters** (recognizing fraudulent websites) or **DNS Filter**.
-3. Watering hole, that compromises a trusted website to deliver malware. The safety measures are **Secure Web Gateway** (which serves as intermediate inspection point between the victim and the attacker to block malicious content) or **Web Applications Firewalls** (monitoring website traffic with the purpose of indicating a compromised website).
-4. Spear Phishing, uses the same technology as phishing but in a targeted way. After learning victim's personal information (by obtaining details through passive scanning), the attacker could create fake emails and websites specifically for that victim. The same tools used for Phishing Attacks could be used for this specific type of Social Engineering Attack.
+1. Phishing, an attempt to induce the victim to provide personal information. Some tools can be useful to avoid **Phishing Attacks**, such as **Email Authentication Protocols** (like SPF, DKIM and DMARC), **Mail Filters** or **External Email Banners**. The most widely used are the Email Authentication Protocols: they validate the sender's domain identity, preventing attackers from spoofing trusted email addresses.
+2. Scareware, using fear and fake security alerts to trick the victim into purchasing useless software, downloading malware, or over-sharing personal information. Possible security measures could be **Pop-Up Blockers**, **Advertising Blockers**, **URL Filters** (recognizing fraudulent websites) or **DNS Filters**.
+3. Watering hole, which compromises a trusted website to deliver malware. The safety mesures are **Secure Web Gateway** and/or **Web Application Firewalls**. Web Application Firewalls protect the target website's server from being exploited by the attackers in the first place, while Secure Web Gateways serve as intermediate inspection point between the end user and the attacker, blocking malicious scripts provided by a compromised web site.
+4. Spear Phishing, uses the same technology as phishing but in a targeted way. After learning victim's personal information (by obtaining details through passive scanning), the attacker could create fake emails and websites specifically for that victim. The same tools used for Phishing could be used for this specific type of threat. However, Spear Phishing emails can easily bypass basic spam filters by using personalized and not-spam text; for this main reason, additional tools as **AI-Based Email Anomaly Detection** and **External Email Banners** are very useful to recognize this kind of Social Engineering Attack.
 
 ### 4.a.2 Give examples on how you, as IT-experts, can either stop or mitigate Social Engineering.
 On one hand, as IT-expert, you would stop Social Engineering Attacks by building technical walls between the victim and the attacker, intercepting Attack Vectors before a human interacts with them.
-
 #### Enforcing Domain Authentication
-
 Domain Authentication is the collection of technical proofs that a message, an email or a service response actually comes from the domain it claims.
 - **Example**: all the incoming emails must be signed and policy-checked so the receiver can distinguish legitimate communications from phising sent through similar infrastructures.
 
 #### Secure Email Gateway
-A Secure Email Gateway is an email security product that blocks malicious emails before they reach recipients.
-- **Example**: if an attacker registers a domain similar to the main used services available (like micros0ft.com), the Security Email Gateway automatically flags the email before it reaches the receiver's inbox.
+A Secure Email Gateway is an email security product that blocks malicious emails before they reach recipients, some of them are SPF, DKIM and DMARC protocols.
+- **Example**: if an attacker registers a domain similar to the main used services available (like micros0ft.com), the Secure Email Gateway automatically flags the email before it reaches the receiver's inbox.
 
 #### Multi-Factor Authentication
-MFA (Multi-Factor Authentication) is a tool used to verify identities by requiring at least two distinct proofs, such as a password, biometric data like face ID or fingerprint or external authenticator services (such as Microsoft Authenticator).
+MFA (Multi-Factor Authentication) is a tool used to verify identities by requiring at least two distinct proofs, like a password, biometric data like face ID or fingerprint, or external authenticator services (such as Microsoft Authenticator).
 - **Example**: an attacker could trace the password of some company employee but, thanks to Multi-Factor Authentication, could not access the final system because they can't provide other proofs required by security systems. 
 
-In the other hand, if a user has been psycologically manipulated, IT-experts should use architectural and structural infrastructures to contain their final impact.
-
+On the other hand, if a user has been psychologically manipulated, IT-experts should use architectural infrastructures to contain their final impact.
 #### Principle of Least Privilige
 The principle of Least Privilige is a security concept in which users receive only the minimum access rights they need to do a task.
-- **Example**: if a user has been manipulated into downloading malicious software or providing their credentials, the attacker cannot access to information beyond the scope of that specific user.
+- **Example**: if a user has been manipulated into downloading malicious software or providing their credentials, the attacker cannot access information beyond the scope of that specific user.
 
 #### Phishing Reporting
-Phishing Reporting could be a client-side UI extension integrated directly into the organization's email software that enable the employees to report likely phishing attacks.
-- **Example**: if an employee accidentally clicks on a malicious link, providing the attacker their credentials, and reports it, the Security Operation Center (SOC) team is immediately notified, deleting automatically the same email from all the other employees' inboxes.
+Phishing Reporting could be a client-side UI extension integrated directly into the organization's email software that enables employees to report likely phishing attacks.
+- **Example**: if an employee accidentally clicks on a malicious link, providing the attacker their credentials, and reports it, the Security Operation Center (SOC) team is immediately notified, automatically deleting the same email from all the other employees' inboxes.
 
 ## 4.b Experiment: Attack & Defence
 
