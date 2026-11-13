@@ -1,5 +1,4 @@
 # Assignment 03: General Assessment
-
 ### Question 1: What is/are SDU’s ip address range/s? 
 SDU uses different IP address ranges depending on the service provided. We can distinguish two ranges:
 - Externally hosted services like `www.sdu.dk` fall into 52.224.0.0 - 52.255.255.255 network range.
