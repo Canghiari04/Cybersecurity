@@ -68,16 +68,17 @@ kali㉿kali$
 1. The MySQL server on Metasploitable virtual machine seems be configured to reject any possible external connection or handshake, recognizing IP addresses that are not in the same local network as Metasploitable virtual machine.
 2. If the software version is hidden, an attacker cannot search exploit databases to identify already-known and recognized vulnerabilities for that specific service.
 
+## 5.b Spying with SQL Injection
 ### 5.b.1 Please shortly discuss your opinion of this web server's configuration concerning directly listings.
 In case an attacker or someone has a full access to the entire directory listing, we can safely state that the web server configuration is poor. Usually, when we visit a web site, the web server automatically directs us to a default page. If this default file is missing, it will show us the directory listings instead, which means a bad configuration.
 
 ### 5.b.2 What type of SQLi attack works? Can you explain why?
 There’s only a particular type of SQL injection that is actually working, specifically using a single quote (‘) rather than double quote (“), combined with a condition that is always verified, like (OR 1=1). The example used in order to get useful information was: SELECT * WHERE ‘ OR 1=1#. The reason why only a single quote works lies in two factors. On one hand, the SQL injection strictly depends from the MySQL version, the database server version, and the web application. On the other hand, another reason could be the way the developer wrote the PHP code. Likely, the web application takes into account only the single quote because the developer also used the same character to wrap the input in the code. Understanding these differences allows the attacker to gather much more details about the victim.
 
-### 5.c.1 What is the # sign for? Can we generally assume it to do the trick?
+### 5.b.3 What is the # sign for? Can we generally assume it to do the trick?
 SQL is a domain specific language used to manage data. Usually, the sharp symbol (#) is used to write down comments inside the code. 
 
-### 5.c.2 Include four relevant username/password combinations in your report. What is the issue with the passwords in the data base and what could be done to secure them?
+### 5.b.4 Include four relevant username/password combinations in your report. What is the issue with the passwords in the data base and what could be done to secure them?
 Providing a list of four relevant username/password combinations:
 - [Username]: leia_organa, [Password]: help_me_obiwan
 - [Username]: luke_skywalker, [Password]: like_my_father_beforeme
@@ -86,4 +87,5 @@ Providing a list of four relevant username/password combinations:
 
 The main issue is that passwords are saved in the database as plain text. To secure them, they should be store as cryptographic hashes using hash functions or hashing algorithms like bcrypt, Argon2 or PBKDF2, making brute-force attacks impractical.
 
-### 5.c.3 
+## Elevation of Privilige
+### 5.c.1 
